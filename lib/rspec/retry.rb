@@ -109,7 +109,10 @@ module RSpec
         end
 
         example.clear_exception
+
+        ex.metadata[:beforeretry].call if ex.metadata[:beforeretry] && attempts > 0
         ex.run
+        ex.metadata[:afterretry].call if ex.metadata[:afterretry] && attempts > 0
 
         self.attempts += 1
 
